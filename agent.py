@@ -65,7 +65,10 @@ class Agent():
 
 
 
-    def decide_next_action_q(self, state: np.ndarray, deterministic: bool = False, old: bool = False) -> int:
+    def decide_next_action_q(
+        self, state: np.ndarray, 
+        deterministic: bool = False, 
+        old: bool = False) -> int:
         """
         derive most valuable action from max_a (q(state, a))
         """

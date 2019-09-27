@@ -1,6 +1,7 @@
 import gym
 import imageio
 import argparse
+import pickle
 import numpy as np
 from agent import Agent
 
@@ -29,15 +30,16 @@ agent = Agent(action_space = action_space, state_dim = state_dim, \
 rgb_episode = []
 episode = []
 action = []
-n_episode=100
+n_episode=300      
 
 jcount=0
 
 for i in range(n_episode):
+    print(i)
     done = False
     state = env.reset()
     while not done:
-
+        
         #action = agent.decide_next_action_random()    
         action = agent.decide_next_action_q(state)
         if not do_random:
@@ -47,19 +49,35 @@ for i in range(n_episode):
         ## do update ogf Q-model
         [loss, reldiff] = agent.update_q(state = state, previous_action=action, next_state=next_state, reward = reward)
         state = next_state.copy()
-        rgb_episode.append(env.render(mode = 'rgb_array'))
         
+        if np.mod(i, 20) == 0:
+            rgb_episode.append(env.render(mode = 'rgb_array'))
+            episode.append(i)
+
         ## print message:
         if np.mod(jcount, 10) == 0:
-            #msg = 'ep = {:4d}, jcount = {:6d}, loss = {:7.3f}, reldiff = {:7.3f}'.format(i, jcount, loss[0], reldiff[0])
-            print(reldiff)
+            #msg = 'ep = {}, jcount = {}, loss = {}, reldiff = {}'.format(i, jcount, loss[0], reldiff[0])
+            print(loss)
         
         jcount += 1
     
-    env.close()
+env.close()
 
 ## make gif
-imageio.mimsave(filename, rgb_episode)
+
+data = {
+    'rgb_images': rgb_episode,
+    'episode': episode,
+    'agent': agent,
+    'env': env
+    }
+with open('res.pickle', 'wb') as f:
+    pickle.dump(data, f)
+
+
+
+## imageio.mimsave(filename, rgb_episode)
+
 
 
 
