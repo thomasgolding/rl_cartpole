@@ -1,22 +1,22 @@
-## make ten episodes:
-import pickle
+from PIL import Image, ImageDraw, ImageFont
 import imageio
-
-with open('res.pickle', 'rb') as f:
-    data = pickle.load(f)
-
-agent = data['agent']
-env = data['env']
-im = []
-for ep in range(10):
-    state = env.reset()
-    done = False
-    while not done:
-        action  = agent.decide_next_action_q(state, deterministic = True)
-        [state, rew, done, info] = env.step(action)
-        xim = env.render(mode = 'rgb_array')
-        im.append(xim)
-env.close()
+import numpy as np
 
 
-imageio.mimsave('dump.gif', im)
+
+def make_rl_gif(outfile: str, imagelist: list, labellist: list):
+    fontpath = '/usr/share/fonts/truetype/freefont/FreeSans.ttf'
+    font = ImageFont.truetype(font = fontpath, size = 25)
+    labeled_im = []
+    for im, lab in zip(imagelist, labellist):
+        tmpim = Image.fromarray(np.uint8(im))
+        draw  = ImageDraw.Draw(tmpim)
+        txt = "episodes trained = {}".format(lab)
+        draw.text((10,10), txt, font = font, fill = 'black')
+        labeled_im.append(np.array(tmpim))
+    
+    imageio.mimsave(outfile, labeled_im)
+
+
+
+
