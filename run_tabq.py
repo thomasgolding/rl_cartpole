@@ -1,8 +1,9 @@
 import numpy as np
 from agent_tabq import AgentTabQ
 from cartpole_env import EnvCartPole
+from make_gif import make_rl_gif
 
-RECORD = 50
+RECORD = 25
 
 
 def play_game(a, record = False):
@@ -55,33 +56,6 @@ def run_experiment(ntime = 100):
 
     rawim = []
     epim = []
-
-
-    # def score_agent():
-    #     score = 0
-    #     s = env.reset()
-    #     done = False
-    #     while not done:
-    #         a = agent.decide_action_deterministic(s)
-    #         [s,r,done,_] = env.step(a)
-    #         score += r
-    #     return score
-
-    # def check_convergence():
-    #     """
-    #     converged if max score 50 times in a row.
-    #     """
-    #     success = True
-    #     n_success = 0
-    #     while success and n_success < 50:
-    #         score = score_agent()
-    #         if score > 199.9:
-    #             n_success += 1
-    #         else:
-    #             success = False
-
-    #     return [success, n_success]
-
     
     for t in range(ntime):
         s = env.reset()
@@ -111,6 +85,12 @@ def run_experiment(ntime = 100):
     return (agent, qdict, rawim, epim)
 
 
+
+if __name__ == '__main__':
+    [a, q, rawim, epim] = run_experiment(ntime = 355)
+    make_rl_gif('rl_cartpole.gif', rawim, epim)
+
+    
 
 
 
