@@ -20,7 +20,7 @@ do_random = True
 filename = 'dump.gif'
 
 
-env = gym.make('CartPole-v0')
+env = gym.make('CartPole-v1')
 action_space = env.action_space
 state_dim = env.reset().shape[0]
 agent = Agent(action_space = action_space, state_dim = state_dim, \

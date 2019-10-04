@@ -101,7 +101,7 @@ class Agent():
         """
 
         ## get optimal action and optimal q using old q-parameters
-        old_opt_action = self.decide_next_action_q(state = state, deterministic = True, old = True)
+        old_opt_action = self.decide_next_action_q(state = next_state, deterministic = True, old = True)
         old_opt_q = self.compute_q(state = next_state, action = old_opt_action, old = True)
         
         old_q = reward + self.discount*old_opt_q['q']
