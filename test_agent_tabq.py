@@ -50,7 +50,7 @@ def test_update_q(agent):
         q.append(agent.q[state,action])
     
     reldiff1 = (q[2]-q[1])/q[1]
-    reldiff2 = (q[-2]-q[-1])/q[-1]
+    reldiff2 = (q[-1]-q[-2])/q[-2]
     assert reldiff1 > reldiff2
 
 
