@@ -1,0 +1,2 @@
+model_checkpoint_path: "tmp_weights_24x24_ts=201.dat"
+all_model_checkpoint_paths: "tmp_weights_24x24_ts=201.dat"
